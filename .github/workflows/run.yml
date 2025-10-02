@@ -1,0 +1,19 @@
+name: Test Action
+on:
+  push:
+    branches: [main]
+
+jobs:
+  run-agent:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      # Use your action from the repo root
+      - name: Run my agent
+        uses: ./
+        with:
+          coding_agent: coding_agent
+          task: "Draft a PR description"
+        env:
+          OPENAI_API_KEY: "KEY_123"
