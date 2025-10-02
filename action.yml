@@ -1,0 +1,35 @@
+name: "Rezonant Coder"
+description: "A GitHub Action that runs coding tasks from Rezonant"
+author: "PortiaAI"
+inputs:
+  coding_agent:
+    description: "Agent/mode to run (e.g., planning, coding_agent)"
+    required: true
+  task:
+    description: "High-level task or prompt"
+    required: true
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: "3.11"
+
+    - name: Install deps
+      if: hashFiles('requirements.txt') != ''
+      shell: bash
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+
+    - name: Run agent
+      env:
+        OPENAI_API_KEY: ${{ secrets.open_ai_api_key }} 
+      shell: bash
+      run: |
+        python run.py \
+          --coding-agent "${{ inputs.coding_agent }}" \
+          --task "${{ inputs.task }}" \
