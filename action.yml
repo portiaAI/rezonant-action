@@ -8,6 +8,9 @@ inputs:
   task:
     description: "High-level task or prompt"
     required: true
+  open_ai_api_key:
+    description: "API Key"
+    required: false
 
 
 runs:
@@ -27,7 +30,7 @@ runs:
 
     - name: Run agent
       env:
-        OPENAI_API_KEY: ${{ secrets.open_ai_api_key }} 
+        OPENAI_API_KEY: ${{ inputs.open_ai_api_key }} 
       shell: bash
       run: |
         python run.py \
